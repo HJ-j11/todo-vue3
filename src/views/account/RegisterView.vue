@@ -55,6 +55,31 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { Form, Field } from 'vee-validate'
+import * as yup from 'yup'
+import { useAuthStore } from '@/stores/auth-store'
+
+const schema = yup.object().shape({
+  firstName: yup.string().required('First Name is required'),
+  lastName: yup.string().required('Last Name is required'),
+  username: yup.string().required('Username is required'),
+  password: yup
+    .string()
+    .required('Password is required')
+    .min(6, 'Password must be at least 6 characters')
+})
+
+async function onSubmit(values) {
+  const usersStore = useAuthStore()
+  try {
+    await usersStore.register(values)
+    await router.push('/login')
+    alertStore.success('Registration successful')
+  } catch (error) {
+    alertStore.error(error)
+  }
+}
+</script>
 
 <style lang="scss" scoped></style>
