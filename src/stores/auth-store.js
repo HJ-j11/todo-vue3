@@ -6,25 +6,15 @@ import { useCookies } from 'vue3-cookies'
 export const useAuthStore = defineStore({
   id: 'auth',
   state: () => ({
-    user: JSON.parse(localStorage.getItem('user'))
+    user: localStorage.getItem('user')
   }),
   actions: {
     async login(username, password) {
       try {
-        const res = await instance.post(
-          '/auth/sign-in',
-          {
-            username: username,
-            password: password
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json; charset=utf-8',
-              Accept: 'application/json'
-            },
-            withCredentials: true
-          }
-        )
+        const res = await instance.post('/auth/sign-in', {
+          username: username,
+          password: password
+        })
 
         const data = res.data.response
         console.log(data)
@@ -49,20 +39,11 @@ export const useAuthStore = defineStore({
 
     async register(user) {
       try {
-        const res = await instance.post(
-          '/auth/sign-up',
-          {
-            name: user.name,
-            username: user.username,
-            password: user.password
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json; charset=utf-8'
-            },
-            withCredentials: true
-          }
-        )
+        const res = await instance.post('/auth/sign-up', {
+          name: user.name,
+          username: user.username,
+          password: user.password
+        })
         return res.data
       } catch (error) {
         console.error('Registration failed', error)
