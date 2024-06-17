@@ -1,17 +1,13 @@
 import { defineStore } from 'pinia'
 import instance from '@/plugins/axios'
 import router from '@/router'
+import { useCookies } from 'vue3-cookies'
 
 export const useAuthStore = defineStore({
   id: 'auth',
   state: () => ({
-    username: JSON.parse(localStorage.getItem('user'))
+    user: JSON.parse(localStorage.getItem('user'))
   }),
-  getters: {
-    isLoggedIn: (state) => {
-      return state.username != null
-    }
-  },
   actions: {
     async login(username, password) {
       try {
@@ -30,8 +26,12 @@ export const useAuthStore = defineStore({
           }
         )
 
-        if (res.data.accessToken) {
-          localStorage.setItem('user', JSON.stringify(res.data))
+        const data = res.data.response
+        console.log(data)
+
+        if (data.accessToken) {
+          this.user = data.accessToken
+          localStorage.setItem('user', JSON.stringify(data.accessToken))
         }
 
         return res.data

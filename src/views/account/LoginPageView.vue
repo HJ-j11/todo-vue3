@@ -5,24 +5,22 @@
       <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
         <div class="form-group">
           <label>Username</label>
-          <Field name="username" type="text" class="form-control" />
-          <!-- <Field
+          <Field
             name="username"
             type="text"
             class="form-control"
             :class="{ 'is-invalid': errors.username }"
-          /> -->
+          />
           <div class="invalid-feedback">{{ errors.username }}</div>
         </div>
         <div class="form-group">
           <label>Password</label>
-          <Field name="password" type="password" class="form-control" />
-          <!-- <Field
+          <Field
             name="password"
             type="password"
             class="form-control"
             :class="{ 'is-invalid': errors.password }"
-          /> -->
+          />
           <div class="invalid-feedback">{{ errors.password }}</div>
         </div>
         <div class="form-group">
@@ -39,8 +37,11 @@
 
 <script setup>
 import { useAuthStore } from '@/stores/auth-store'
+import { useRouter } from 'vue-router'
 import { Form, Field } from 'vee-validate'
 import * as yup from 'yup'
+
+const router = useRouter()
 
 // Define your validation schema
 const schema = yup.object({
@@ -48,10 +49,17 @@ const schema = yup.object({
   password: yup.string().required('Password is required')
 })
 
-async function onSubmit(values) {
+function onSubmit(values) {
   const authStore = useAuthStore()
   const { username, password } = values
-  await authStore.login(username, password)
+  authStore
+    .login(username, password)
+    .then(() => {
+      router.push({ name: 'Home' })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
 </script>
 

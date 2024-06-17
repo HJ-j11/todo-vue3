@@ -51,7 +51,7 @@ const fetchPosts = async () => {
   try {
     const { data } = await getPosts()
     if (data.message == 'OK') {
-      posts.value = data.data
+      posts.value = data.response
     }
   } catch (error) {
     console.error(error)

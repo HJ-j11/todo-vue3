@@ -4,7 +4,6 @@ import AboutView from '@/views/AboutView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import accoutRoute from './accout-route'
 import postRoute from './post-route'
-import { useAuthStore } from '@/stores/auth-store'
 
 const routes = [
   {
@@ -33,10 +32,13 @@ const router = createRouter({
 })
 
 // router.beforeEach(async (to) => {
-//   const authStore = useAuthStore()
+//   const publicPages = ['/login']
+//   const authRequired = !publicPages.includes(to.path)
+//   const auth = useAuthStore()
 
-//   if (!authStore.user) {
-//     router.push('/login')
+//   if (authRequired && !auth.user) {
+//     auth.returnUrl = to.fullPath
+//     return '/login'
 //   }
 // })
 

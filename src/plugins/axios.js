@@ -13,4 +13,10 @@ const instance = axios.create({
   withCredentials: true
 })
 
+instance.interceptors.request.use(function (config) {
+  const accessToken = localStorage.getItem('user')
+  config.headers.Authorization = accessToken ? `Bearer ${accessToken}` : ''
+  return config
+})
+
 export default instance

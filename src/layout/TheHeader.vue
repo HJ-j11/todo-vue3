@@ -2,7 +2,7 @@
   <header>
     <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">GYM CODING</a>
+        <a class="navbar-brand" href="#">CODING</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -29,6 +29,11 @@
               <RouterLink class="nav-link" active-class="active" to="/nested">Nested</RouterLink>
             </li>
           </ul>
+          <div class="d-flex row-g2" role="search">
+            <button class="btn btn-outline-light" type="button" @click="handleAuthClick">
+              {{ isLoggedIn ? 'Logout' : 'Login' }}
+            </button>
+          </div>
           <div class="d-flex" role="search">
             <button class="btn btn-outline-light" type="button" @click="goPage">Write</button>
           </div>
@@ -40,13 +45,41 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth-store'
+import { ref, onMounted } from 'vue'
 
 const router = useRouter()
+const isLoggedIn = ref(false)
+const authStore = useAuthStore()
+
+const checkAuthStatus = () => {
+  isLoggedIn.value = localStorage.getItem('user') !== null
+}
+
 const goPage = () => {
   router.push({
     name: 'PostCreate'
   })
 }
+
+const goLoginPage = () => {
+  router.push({
+    name: 'Login'
+  })
+}
+
+const handleAuthClick = () => {
+  if (isLoggedIn.value) {
+    authStore.logout()
+    alert('Logged Out!')
+  } else {
+    goLoginPage()
+  }
+}
+
+onMounted(() => {
+  checkAuthStatus()
+})
 </script>
 
 <style></style>

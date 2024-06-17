@@ -2,23 +2,11 @@
 import instance from '@/plugins/axios'
 
 export function getPosts() {
-  return instance.get('/posts', {
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      Accept: 'application/json'
-    },
-    withCredentials: true
-  })
+  return instance.get('/posts')
 }
 
 export function getPostById(id) {
-  return instance.get(`/posts/${id}`, {
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      Accept: 'application/json'
-    },
-    withCredentials: true
-  })
+  return instance.get(`/posts/${id}`)
 }
 
 export function createPost(data) {
