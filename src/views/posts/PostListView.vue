@@ -7,7 +7,7 @@
         <PostItem
           :title="post.title"
           :content="post.content"
-          :created-at="posts.createdAt"
+          :created-at="post.createdAt"
           @click="goPage(post.id)"
         ></PostItem>
       </div>
@@ -50,7 +50,9 @@ const posts = ref([])
 const fetchPosts = async () => {
   try {
     const { data } = await getPosts()
-    posts.value = data
+    if (data.message == 'OK') {
+      posts.value = data.data
+    }
   } catch (error) {
     console.error(error)
   }

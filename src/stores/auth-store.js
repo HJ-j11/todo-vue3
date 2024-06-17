@@ -1,8 +1,6 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import instance from '@/plugins/axios'
 import router from '@/router'
-
-const API_URL = 'http://localhost:8080/auth'
 
 export const useAuthStore = defineStore({
   id: 'auth',
@@ -17,10 +15,20 @@ export const useAuthStore = defineStore({
   actions: {
     async login(username, password) {
       try {
-        const res = await axios.post(API_URL + '/sign-in', {
-          username: username,
-          password: password
-        })
+        const res = await instance.post(
+          '/auth/sign-in',
+          {
+            username: username,
+            password: password
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+              Accept: 'application/json'
+            },
+            withCredentials: true
+          }
+        )
 
         if (res.data.accessToken) {
           localStorage.setItem('user', JSON.stringify(res.data))
@@ -41,11 +49,20 @@ export const useAuthStore = defineStore({
 
     async register(user) {
       try {
-        const res = await axios.post(API_URL + '/sign-up', {
-          name: user.name,
-          username: user.username,
-          password: user.password
-        })
+        const res = await instance.post(
+          '/auth/sign-up',
+          {
+            name: user.name,
+            username: user.username,
+            password: user.password
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8'
+            },
+            withCredentials: true
+          }
+        )
         return res.data
       } catch (error) {
         console.error('Registration failed', error)

@@ -1,22 +1,34 @@
 // axios
-import axios from 'axios'
+import instance from '@/plugins/axios'
 
 export function getPosts() {
-  return axios.get('http://localhost:8080/posts')
+  return instance.get('/posts', {
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      Accept: 'application/json'
+    },
+    withCredentials: true
+  })
 }
 
 export function getPostById(id) {
-  return axios.get(`http://localhost:8080/posts/${id}`)
+  return instance.get(`/posts/${id}`, {
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      Accept: 'application/json'
+    },
+    withCredentials: true
+  })
 }
 
 export function createPost(data) {
-  return axios.post('http://localhost:8080/posts', data)
+  return instance.post('/posts', data)
 }
 
 export function updatePost(id, data) {
-  return axios.put(`http://localhost:8080/posts/${id}`, data)
+  return instance.put(`/posts/${id}`, data)
 }
 
 export function deletePost(id) {
-  return axios.delete(`http://localhost:8080/posts/${id}`)
+  return instance.delete(`/posts/${id}`)
 }

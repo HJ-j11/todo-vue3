@@ -5,4 +5,4 @@ function create(baseUrl, options) {
   return instance
 }
 
-export const posts = create('http://localhost:8080/posts/')
+export const posts = create('http://localhost:8081/posts/')
