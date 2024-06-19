@@ -27,7 +27,7 @@ instance.interceptors.response.use(
   function (error) {
     if (error.response.status == 401) {
       alert('로그인이 필요합니다')
-      router.push('/')
+      router.push({ name: 'Login' })
     }
     return Promise.reject(error)
   }

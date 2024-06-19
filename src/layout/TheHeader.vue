@@ -31,7 +31,7 @@
           </ul>
           <div class="d-flex row-g2" role="search">
             <button class="btn btn-outline-light" type="button" @click="handleAuthClick">
-              {{ isLoggedIn ? 'Logout' : 'Login' }}
+              {{ loginButton }}
             </button>
           </div>
           <div class="d-flex" role="search">
@@ -46,11 +46,16 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth-store'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 
 const router = useRouter()
 const isLoggedIn = ref(false)
 const authStore = useAuthStore()
+const loginButton = ref('Login')
+
+watch(isLoggedIn, (newValue) => {
+  loginButton.value = newValue ? 'Logout' : 'Login'
+})
 
 const checkAuthStatus = () => {
   isLoggedIn.value = localStorage.getItem('user') !== null
@@ -72,6 +77,7 @@ const handleAuthClick = () => {
   if (isLoggedIn.value) {
     authStore.logout()
     alert('Logged Out!')
+    checkAuthStatus()
   } else {
     goLoginPage()
   }

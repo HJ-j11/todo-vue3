@@ -14,7 +14,6 @@ export const useAuthStore = defineStore({
       try {
         const res = await instance.post('/auth/sign-in', {
           username: username,
-
           password: password
         })
 
