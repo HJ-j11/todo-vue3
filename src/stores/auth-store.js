@@ -6,22 +6,24 @@ import { useCookies } from 'vue3-cookies'
 export const useAuthStore = defineStore({
   id: 'auth',
   state: () => ({
-    user: localStorage.getItem('user')
+    user: localStorage.getItem('user'),
+    user_roles: []
   }),
   actions: {
     async login(username, password) {
       try {
         const res = await instance.post('/auth/sign-in', {
           username: username,
+
           password: password
         })
 
         const data = res.data.response
-        console.log(data)
 
         if (data.accessToken) {
           this.user = data.accessToken
-          localStorage.setItem('user', JSON.stringify(data.accessToken))
+          this.user_roles = data.roles
+          localStorage.setItem('user', data.accessToken)
         }
 
         return res.data
@@ -33,6 +35,7 @@ export const useAuthStore = defineStore({
 
     logout() {
       this.user = null
+      this.user_roles = []
       localStorage.removeItem('user')
       router.push('/')
     },

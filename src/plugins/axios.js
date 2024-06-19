@@ -1,3 +1,4 @@
+import router from '@/router'
 import axios from 'axios'
 
 const instance = axios.create({
@@ -18,5 +19,18 @@ instance.interceptors.request.use(function (config) {
   config.headers.Authorization = accessToken ? `Bearer ${accessToken}` : ''
   return config
 })
+
+instance.interceptors.response.use(
+  function (response) {
+    return response
+  },
+  function (error) {
+    if (error.response.status == 401) {
+      alert('로그인이 필요합니다')
+      router.push('/')
+    }
+    return Promise.reject(error)
+  }
+)
 
 export default instance
