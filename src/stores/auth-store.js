@@ -1,29 +1,28 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import instance from '@/plugins/axios'
 import router from '@/router'
-
-const API_URL = 'http://localhost:8080/auth'
+import { useCookies } from 'vue3-cookies'
 
 export const useAuthStore = defineStore({
   id: 'auth',
   state: () => ({
-    username: JSON.parse(localStorage.getItem('user'))
+    user: localStorage.getItem('user'),
+    user_roles: []
   }),
-  getters: {
-    isLoggedIn: (state) => {
-      return state.username != null
-    }
-  },
   actions: {
     async login(username, password) {
       try {
-        const res = await axios.post(API_URL + '/sign-in', {
+        const res = await instance.post('/auth/sign-in', {
           username: username,
           password: password
         })
 
-        if (res.data.accessToken) {
-          localStorage.setItem('user', JSON.stringify(res.data))
+        const data = res.data.response
+
+        if (data.accessToken) {
+          this.user = data.accessToken
+          this.user_roles = data.roles
+          localStorage.setItem('user', data.accessToken)
         }
 
         return res.data
@@ -35,13 +34,14 @@ export const useAuthStore = defineStore({
 
     logout() {
       this.user = null
+      this.user_roles = []
       localStorage.removeItem('user')
       router.push('/')
     },
 
     async register(user) {
       try {
-        const res = await axios.post(API_URL + '/sign-up', {
+        const res = await instance.post('/auth/sign-up', {
           name: user.name,
           username: user.username,
           password: user.password

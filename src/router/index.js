@@ -4,7 +4,6 @@ import AboutView from '@/views/AboutView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import accoutRoute from './accout-route'
 import postRoute from './post-route'
-import { useAuthStore } from '@/stores/auth-store'
 
 const routes = [
   {
@@ -31,13 +30,5 @@ const router = createRouter({
   // history: createWebHashHistory(),
   routes
 })
-
-// router.beforeEach(async (to) => {
-//   const authStore = useAuthStore()
-
-//   if (!authStore.user) {
-//     router.push('/login')
-//   }
-// })
 
 export default router
