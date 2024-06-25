@@ -4,6 +4,7 @@ import AboutView from '@/views/AboutView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import accoutRoute from './accout-route'
 import postRoute from './post-route'
+import eventRoute from './event-route'
 
 const routes = [
   {
@@ -22,7 +23,8 @@ const routes = [
     component: NotFoundView
   },
   { ...accoutRoute },
-  { ...postRoute }
+  { ...postRoute },
+  { ...eventRoute }
 ]
 
 const router = createRouter({

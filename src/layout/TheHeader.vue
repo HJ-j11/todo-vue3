@@ -26,6 +26,9 @@
               <RouterLink class="nav-link" active-class="active" to="/posts">Posts</RouterLink>
             </li>
             <li class="nav-item">
+              <RouterLink class="nav-link" active-class="active" to="/events">Events</RouterLink>
+            </li>
+            <li class="nav-item">
               <RouterLink class="nav-link" active-class="active" to="/nested">Nested</RouterLink>
             </li>
           </ul>
