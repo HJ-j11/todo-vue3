@@ -1,12 +1,27 @@
 <template>
   <div>
-    <h2>이벤트 목록</h2>
+    <div class="input-group mb-3">
+      <div class="col">
+        <h2>이벤트 목록</h2>
+      </div>
+      <div class="row g-3">
+        <div class="col-auto">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter keyword"
+            aria-describedby="button-addon2"
+            v-model="searchText"
+          />
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
+        </div>
+      </div>
+    </div>
     <hr class="my-4" />
     <div class="row g-3">
-      <!-- <div class="col-4">
-        <EventItem></EventItem>
-      </div> -->
-      <div v-for="event in events" :key="event.id" class="col-4">
+      <div v-for="event in filterEvent" :key="event.id" class="col-4">
         <EventItem
           :title="event.title"
           :location="event.location"
@@ -40,14 +55,19 @@
 <script setup>
 import EventItem from '@/components/events/EventItem.vue'
 import { getEvents } from '@/api/events'
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 const events = ref([])
+const searchText = ref('')
+
+onMounted(() => {
+  fetchEvents()
+})
 
 const fetchEvents = async () => {
   try {
     const { data } = await getEvents()
-    if (data.message == 'OK') {
+    if (data.message === 'OK') {
       events.value = data.response
       console.log(data)
     }
@@ -56,5 +76,13 @@ const fetchEvents = async () => {
   }
 }
 
-fetchEvents()
+const filterEvent = computed(() => {
+  if (searchText.value) {
+    return events.value.filter((event) => {
+      return event.title.includes(searchText.value)
+    })
+  } else {
+    return events.value
+  }
+})
 </script>
