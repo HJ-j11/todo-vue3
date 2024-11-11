@@ -14,7 +14,7 @@
         ></PostItem>
       </div>
     </div>
-    <nav class="mt-5" aria-label="Page navigation example">
+    <!-- <nav class="mt-5" aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
         <li class="page-item">
           <a class="page-link" href="#" aria-label="Previous">
@@ -30,25 +30,36 @@
           </a>
         </li>
       </ul>
-    </nav>
+    </nav> -->
     <hr class="my-4" />
+    <!-- <b-pagination
+      v-model="currentPage"
+      :total-rows="rows"
+      :per-page="perPage"
+      aria-controls="my-table"
+    ></b-pagination> -->
   </div>
 </template>
 
 <script setup>
 import PostItem from '@/components/posts/PostItem.vue'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { getPosts } from '@/api/posts'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const posts = ref([])
+const pages = reactive({
+  rows: 1,
+  perPage: 10
+})
+
 
 const fetchPosts = async () => {
   try {
     const { data } = await getPosts()
     if (data.message == 'OK') {
-      posts.value = data.response
+      posts.value = data.response.content
     }
   } catch (error) {
     console.error(error)
