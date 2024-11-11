@@ -1,8 +1,8 @@
 <template>
   <div>
     <h2>{{ post.title }}</h2>
-    <p>{{ post.content }}</p>
-    <p class="text-muted">{{ $dayjs(post.createdAt).format('YYYY. MM. DD HH:mm:ss') }}</p>
+    <p></p>
+    <!-- <p class="text-muted">{{ $dayjs(post.createdAt).format('YYYY. MM. DD HH:mm:ss') }}</p> -->
     <hr class="my-4" />
     <div class="row g-2">
       <div class="col-auto">
@@ -43,10 +43,12 @@ const fetchPost = async () => {
   setPost(data)
 }
 
-const setPost = ({ title, content, createdAt }) => {
+const setPost = ({ title, startDate, endDate, location, imageUrl }) => {
   post.value.title = title
-  post.value.content = content
-  post.value.createdAt = createdAt
+  post.value.startDate = startDate
+  post.value.endDate = endDate
+  post.value.location = location
+  post.value.imageUrl = imageUrl
 }
 
 fetchPost()

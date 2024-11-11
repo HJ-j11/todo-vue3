@@ -6,17 +6,17 @@ import PostListView from '@/views/posts/PostListView.vue'
 export default {
   children: [
     {
-      path: '/posts',
+      path: '/events',
       name: 'PostList',
       component: PostListView
     },
     {
-      path: '/posts/create',
+      path: '/events/create',
       name: 'PostCreate',
       component: PostCreateView
     },
     {
-      path: '/posts/:id',
+      path: '/events/:id',
       name: 'PostDetail',
       component: PostDetailView,
       // props: true
@@ -25,7 +25,7 @@ export default {
       })
     },
     {
-      path: '/posts/:id/edit',
+      path: '/events/:id/edit',
       name: 'PostEdit',
       component: PostEditView
     }

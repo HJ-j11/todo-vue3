@@ -1,10 +1,13 @@
 <template>
   <AppCard>
-    <h5 class="card-title">{{ title }}</h5>
-    <p class="card-text">
-      {{ content }}
-    </p>
-    <p class="text-muted">{{ createdAt }}</p>
+    <div class="row">
+      <div class="col">
+        <h5 class="card-title">{{ title }}</h5>
+        <p class="card-text">
+          {{ startDate }} ~ {{ endDate }}
+        </p>
+      </div>
+    </div>
   </AppCard>
 </template>
 
@@ -15,8 +18,11 @@ defineProps({
     type: String,
     required: true
   },
-  content: {
-    type: String
+  startDate : {
+    type: String,
+  },
+  endDate : {
+    type: String,
   },
   createdAt: {
     type: [String, Date, Number]

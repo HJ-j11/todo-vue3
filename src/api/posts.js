@@ -2,21 +2,21 @@
 import instance from '@/plugins/axios'
 
 export function getPosts() {
-  return instance.get('/posts')
+  return instance.get('/events')
 }
 
 export function getPostById(id) {
-  return instance.get(`/posts/${id}`)
+  return instance.get(`/events/${id}`)
 }
 
 export function createPost(data) {
-  return instance.post('/posts', data)
+  return instance.post('/events', data)
 }
 
 export function updatePost(id, data) {
-  return instance.put(`/posts/${id}`, data)
+  return instance.put(`/events/${id}`, data)
 }
 
 export function deletePost(id) {
-  return instance.delete(`/posts/${id}`)
+  return instance.delete(`/events/${id}`)
 }

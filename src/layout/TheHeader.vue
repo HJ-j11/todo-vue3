@@ -23,11 +23,11 @@
               <RouterLink class="nav-link" active-class="active" to="/about">About</RouterLink>
             </li>
             <li class="nav-item">
-              <RouterLink class="nav-link" active-class="active" to="/posts">Posts</RouterLink>
+              <RouterLink class="nav-link" active-class="active" to="/events">Events</RouterLink>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <RouterLink class="nav-link" active-class="active" to="/nested">Nested</RouterLink>
-            </li>
+            </li> -->
           </ul>
           <div class="d-flex row-g2" role="search">
             <button class="btn btn-outline-light" type="button" @click="handleAuthClick">
