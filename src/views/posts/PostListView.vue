@@ -2,18 +2,18 @@
   <div>
     <h2>목록</h2>
     <hr class="my-4" />
-    <div class="row g-3">
-      <div v-for="post in posts" :key="post.id" class="col-4">
-        <PostItem
-          :title="post.title"
-          :start-date="post.startDate"
-          :end-date="post.endDate"
-          :location="post.location"
-          :image-url="post.imageUrl"
-          @click="goPage(post.id)"
-        ></PostItem>
+      <div class="row g-3">
+          <div v-for="post in posts" :key="post.id" class="col-4">
+            <PostItem
+              :title="post.title"
+              :start-date="post.startDate"
+              :end-date="post.endDate"
+              :location="post.location"
+              :image-url="post.imageUrl"
+              @click="goPage(post.id)"
+            ></PostItem>
+          </div>
       </div>
-    </div>
     <!-- <nav class="mt-5" aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
         <li class="page-item">
@@ -32,26 +32,31 @@
       </ul>
     </nav> -->
     <hr class="my-4" />
-    <!-- <b-pagination
-      v-model="currentPage"
-      :total-rows="rows"
-      :per-page="perPage"
-      aria-controls="my-table"
-    ></b-pagination> -->
+    <div class="d-flex justify-content-center">
+      <VueAwesomePaginate
+        :total-items="pageInfo.totalPages"
+        v-model="pageInfo.currentPage"
+        :items-per-page="pageInfo.pageSize"
+        :max-pages-shown="pageInfo.pageSize"
+        @click="onClickHandler"
+      />
+    </div>
   </div>
 </template>
 
 <script setup>
 import PostItem from '@/components/posts/PostItem.vue'
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { getPosts } from '@/api/posts'
 import { useRouter } from 'vue-router'
+import { VueAwesomePaginate } from 'vue-awesome-paginate';
 
 const router = useRouter()
 const posts = ref([])
-const pages = reactive({
-  rows: 1,
-  perPage: 10
+const pageInfo = reactive({
+  currentPage : 1,
+  pageSize: 1,
+  totalPages: 1,
 })
 
 
@@ -60,6 +65,8 @@ const fetchPosts = async () => {
     const { data } = await getPosts()
     if (data.message == 'OK') {
       posts.value = data.response.content
+      pageInfo.totalPages = data.response.totalPages
+      pageInfo.pageSize = data.respose.pageable.pageSize
     }
   } catch (error) {
     console.error(error)
