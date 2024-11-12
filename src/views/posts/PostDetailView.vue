@@ -4,6 +4,15 @@
     <p></p>
     <!-- <p class="text-muted">{{ $dayjs(post.createdAt).format('YYYY. MM. DD HH:mm:ss') }}</p> -->
     <hr class="my-4" />
+    <div class="row">
+      <div class="col-auto">
+        <p>{{ post.startDate}} ~ {{post.endDate}}</p>
+        <p>{{ post.location }} </p>
+      </div>
+    </div>
+    <div class="row image-container d-inline-block">
+      <img :src="post.imageUrl" alt="Image" class="img-fluid" />
+    </div>
     <div class="row g-2">
       <div class="col-auto">
         <button class="btn btn-outline-dark">이전글</button>
@@ -40,7 +49,7 @@ const post = ref({})
 
 const fetchPost = async () => {
   const { data } = await getPostById(props.id)
-  setPost(data)
+  setPost(data.response)
 }
 
 const setPost = ({ title, startDate, endDate, location, imageUrl }) => {
