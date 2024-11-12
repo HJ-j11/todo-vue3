@@ -1,8 +1,8 @@
 // axios
 import instance from '@/plugins/axios'
 
-export function getPosts() {
-  return instance.get('/events')
+export function getPosts(pageNum) {
+  return instance.get(`/events?page=${pageNum}`)
 }
 
 export function getPostById(id) {

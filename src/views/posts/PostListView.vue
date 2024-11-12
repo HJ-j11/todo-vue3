@@ -34,10 +34,10 @@
     <hr class="my-4" />
     <div class="d-flex justify-content-center">
       <VueAwesomePaginate
-        :total-items="pageInfo.totalPages"
+        :total-items="pageInfo.totalItems"
         v-model="pageInfo.currentPage"
-        :items-per-page="pageInfo.pageSize"
-        :max-pages-shown="pageInfo.pageSize"
+        :items-per-page="pageInfo.size"
+        :max-pages-shown="pageInfo.size"
         @click="onClickHandler"
       />
     </div>
@@ -46,7 +46,7 @@
 
 <script setup>
 import PostItem from '@/components/posts/PostItem.vue'
-import { computed, reactive, ref } from 'vue'
+import { reactive, ref} from 'vue'
 import { getPosts } from '@/api/posts'
 import { useRouter } from 'vue-router'
 import { VueAwesomePaginate } from 'vue-awesome-paginate';
@@ -55,25 +55,34 @@ const router = useRouter()
 const posts = ref([])
 const pageInfo = reactive({
   currentPage : 1,
-  pageSize: 1,
-  totalPages: 1,
+  size: 1,
+  totalItems: 1,
 })
 
-
-const fetchPosts = async () => {
+const fetchPosts = async (pageNum) => {
   try {
-    const { data } = await getPosts()
+    const { data } = await getPosts(pageNum)
     if (data.message == 'OK') {
       posts.value = data.response.content
-      pageInfo.totalPages = data.response.totalPages
-      pageInfo.pageSize = data.respose.pageable.pageSize
+      pageInfo.totalItems = data.response.totalElements
+      pageInfo.size = data.response.size
     }
+
+    console.log(`total pages : ${pageInfo.totalPages}`)
+    console.log(`current page : ${pageInfo.currentPage}`)
+
   } catch (error) {
     console.error(error)
   }
 }
 
-fetchPosts()
+fetchPosts(pageInfo.currentPage -1)
+
+const onClickHandler = () => {
+  fetchPosts(pageInfo.currentPage -1);
+}
+
+
 
 const goPage = (id) => {
   router.push({
